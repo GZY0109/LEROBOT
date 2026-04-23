@@ -52,7 +52,7 @@ cd /home/users/ntu/zuyu001/LEROBOT
 
 ---
 
-## 对比结论（已验证，只追加不覆盖）
+## 对比结论（文献参考基线（来源：OpenVLA 原论文，尚未本地复现），只追加不覆盖）
 
 | 策略 | 最优指标 | 关键数据 | 真机选型建议 |
 |------|----------|----------|-------------|
@@ -76,10 +76,11 @@ cd /home/users/ntu/zuyu001/LEROBOT
 
 ## 当前任务
 
-- [ ] 补充 MetaWorld 数据到 `reports/strategy_comparison.md`
-- [ ] LeRobotDataset 格式对齐验证（action chunk size 标准化）
-- [ ] 数据采集规范文档（`dataset/README.md`）
+- [x] 补充 MetaWorld 数据到 `reports/strategy_comparison.md`
+- [x] LeRobotDataset 格式对齐验证（action chunk size 标准化）
+- [x] 数据采集规范文档（`dataset/README.md`）
 - [ ] 评估视频整理归档
+- [ ] 本地复现文献基线数据（替换为实测结果）
 
 ---
 

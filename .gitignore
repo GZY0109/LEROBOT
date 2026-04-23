@@ -1,0 +1,43 @@
+# Model weights (too large to upload)
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.h5
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# Environment variables
+.env
+.env.*
+
+# Experiment tracking caches
+wandb/
+runs/
+lightning_logs/
+.neptune/
+
+# Videos (large files)
+*.mp4
+*.avi
+*.mov
+
+# Jupyter
+.ipynb_checkpoints/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Raw datasets (not uploaded)
+data/raw/

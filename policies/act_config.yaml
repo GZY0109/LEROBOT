@@ -1,0 +1,47 @@
+# ACT (Action Chunking with Transformers) configuration
+# Reference: Zhao et al., "Learning Fine-Grained Bimanual Manipulation with Low-Cost Hardware"
+
+policy:
+  name: act
+  type: transformer
+
+model:
+  hidden_dim: 512
+  num_layers: 4
+  num_heads: 8
+  feedforward_dim: 2048
+  dropout: 0.1
+
+  # CVAE encoder
+  latent_dim: 32
+  kl_weight: 10.0
+
+action:
+  action_chunk_size: 20        # Number of actions predicted per step
+  action_dim: 7                # 6-DoF + gripper
+  use_temporal_ensemble: true  # Exponential moving average over overlapping chunks
+
+observation:
+  observation_window: 1        # ACT uses single-frame observation by default
+  image_size: [480, 640]
+  image_channels: 3
+  use_depth: false
+  state_dim: 14                # Joint positions + velocities
+
+training:
+  batch_size: 64
+  learning_rate: 1.0e-4
+  weight_decay: 1.0e-5
+  num_epochs: 2000
+  lr_scheduler: cosine
+  warmup_epochs: 50
+  gradient_clip: 1.0
+
+  loss:
+    reconstruction_weight: 1.0
+    kl_weight: 10.0
+
+data:
+  dataset_format: lerobot      # LeRobotDataset v2 format
+  normalize_actions: true
+  normalize_observations: true

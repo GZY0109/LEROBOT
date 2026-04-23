@@ -1,0 +1,61 @@
+# π0 (Pi-Zero) configuration
+# Reference: Black et al., "π0: A Vision-Language-Action Flow Matching Model"
+
+policy:
+  name: pi0
+  type: flow_matching
+
+model:
+  # Backbone: pre-trained VLM (PaliGemma 2B)
+  vlm_backbone: paligemma_2b
+  freeze_vlm: false              # Fine-tune with LoRA
+  lora_rank: 16
+  lora_alpha: 32
+
+  # Action expert (flow matching head)
+  action_expert_layers: 4
+  action_expert_dim: 1024
+  action_expert_heads: 8
+
+  # Flow matching
+  flow_matching_steps: 10
+  sigma_min: 0.001
+  ode_solver: euler
+
+action:
+  action_chunk_size: 50          # Longer horizon for VLA models
+  action_dim: 7                  # 6-DoF + gripper
+  n_action_steps: 50             # Execute all predicted steps
+
+observation:
+  observation_window: 3          # π0 benefits most from longer observation history
+  image_size: [224, 224]         # VLM input resolution
+  image_channels: 3
+  use_depth: false
+  state_dim: 14
+  use_language: true             # Language-conditioned
+
+training:
+  batch_size: 32                 # Smaller batch due to VLM memory
+  learning_rate: 5.0e-5
+  weight_decay: 1.0e-4
+  num_epochs: 500
+  lr_scheduler: cosine
+  warmup_epochs: 20
+  gradient_clip: 1.0
+
+  # Mixed precision for VLM fine-tuning
+  mixed_precision: bf16
+
+  loss: flow_matching             # Conditional flow matching objective
+
+inference:
+  num_inference_steps: 10
+  guidance_scale: 1.0            # No classifier-free guidance by default
+
+data:
+  dataset_format: lerobot
+  normalize_actions: true
+  normalize_observations: true
+  # π0 is most data-efficient among the three policies
+  min_episodes: 25               # Usable with as few as 25 episodes
